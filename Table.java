@@ -1,10 +1,7 @@
-import java.io.BufferedWriter;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Table {
     String name;
@@ -16,23 +13,29 @@ public class Table {
         colNames = new ArrayList<String>(Arrays.asList(cols));
     }
 
-    public void saveTable() throws IOException {
-        // not working :c
-        String fileName = name + ".txt";
-        File file = new File(fileName);
-        file.createNewFile();
-        BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-        for (String s : colNames) {
-            fileWriter.write(s);
-            fileWriter.write("|");
-        }
-        fileWriter.write("\n");
-        for (HashMap<String, String> m : rows) {
-            for (String s : colNames) {
-                fileWriter.write(m.get(s));
-                fileWriter.write("|");
+    public void saveTable() {
+        try {
+            String fileName = name + ".txt";
+            File file = new File(fileName);
+            if(!file.exists()) {
+                file.createNewFile();
             }
-            fileWriter.write("\n");
+            PrintWriter pw = new PrintWriter(file);
+            for (String s : colNames) {
+                pw.print(s);
+                pw.print("|");
+            }
+            pw.println();
+            for (HashMap<String, String> m : rows) {
+                for (String s : colNames) {
+                    pw.print(m.get(s));
+                    pw.print("|");
+                }
+                pw.println();
+            }
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

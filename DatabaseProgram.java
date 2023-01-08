@@ -29,11 +29,7 @@ public class DatabaseProgram {
             String[] values = row1.split(" ");
             table.insert(values);
             table.print();
-            try {
-                table.saveTable();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            table.saveTable();
         }
 
     }
