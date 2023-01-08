@@ -1,22 +1,26 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Table {
-    String name;
+    public String name;
     ArrayList<String> colNames;
     ArrayList<HashMap<String, String>> rows = new ArrayList<>();
 
-    public Table(String name, String[] cols) {
+    public Table(String name, ArrayList<String> colNames) {
         this.name = name;
-        colNames = new ArrayList<String>(Arrays.asList(cols));
+        //colNames = new ArrayList<String>(Arrays.asList(cols));
+        this.colNames = colNames;
+    }
+
+    public Table(String path) {
+        // creating table from file
     }
 
     public void saveTable() {
         try {
             String fileName = name + ".txt";
-            File file = new File(fileName);
+            File file = new File("database/" + fileName);
             if(!file.exists()) {
                 file.createNewFile();
             }
