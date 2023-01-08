@@ -4,6 +4,7 @@ public class Database {
     private HashMap<String,Table> tables = new HashMap<>();
 
     public void addTable(Table table) {
+        table.saveTable();
         tables.put(table.name, table);
     }
 

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import static java.lang.System.exit;
 
@@ -12,15 +13,23 @@ public class DatabaseProgram {
             if (answer.equals("1")) {
                 System.out.println("Name of table:");
                 String name = sc.nextLine();
-
+                System.out.println("Columns:");
+                String columnsString = sc.nextLine();
+                String[] columns = columnsString.split(" ");
+                ArrayList<String> colNames = new ArrayList<>();
+                for (String colName : columns) {
+                    colNames.add(colName);
+                }
+                database.addTable(new Table(name, colNames));
             }
             else {
                 System.out.println("Ending program.");
                 exit(0);
             }
         }
-        String commandString = sc.nextLine();
-        String[] command = commandString.split(" ");
-
+        else {
+            // show tables
+            System.out.println("1 - type command\n2 - create new table");
+        }
     }
 }
