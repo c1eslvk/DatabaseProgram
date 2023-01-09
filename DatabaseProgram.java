@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static java.lang.System.exit;
@@ -7,29 +8,36 @@ public class DatabaseProgram {
         Parser parser = new Parser();
         Database database = new Database();
         Scanner sc = new Scanner(System.in);
+        database.loadTables();
         if (database.isEmpty()) {
-            System.out.println("Database doesn't have any table. Do you want to add one?\n1 - yes\n2 - no");
+            System.out.println("Database doesn't have any table. Do you want to add one?\n1 - yes\n2 - no (quit)");
             String answer = sc.nextLine();
             if (answer.equals("1")) {
-                System.out.println("Name of table:");
-                String name = sc.nextLine();
-                System.out.println("Columns:");
-                String columnsString = sc.nextLine();
-                String[] columns = columnsString.split(" ");
-                ArrayList<String> colNames = new ArrayList<>();
-                for (String colName : columns) {
-                    colNames.add(colName);
-                }
-                database.addTable(new Table(name, colNames));
+                database.addTable(new Table());
             }
             else {
                 System.out.println("Ending program.");
                 exit(0);
             }
         }
-        else {
-            // show tables
+        database.listTables();
+        while (true) {
             System.out.println("1 - type command\n2 - create new table");
+            String answer = sc.nextLine();
+            if (answer.equalsIgnoreCase("2")) {
+                database.addTable(new Table());
+            } else {
+                System.out.println("Type command:");
+                String command = sc.nextLine();
+                if (command.equalsIgnoreCase("quit")) {
+                    System.out.println("Shutting down...");
+                    exit(0);
+                }
+                else {
+                    parser.executeCommand(command, database);
+                }
+            }
         }
+
     }
 }

@@ -1,12 +1,25 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Table {
     public String name;
-    ArrayList<String> colNames;
+    ArrayList<String> colNames = new ArrayList<>();
     ArrayList<HashMap<String, String>> rows = new ArrayList<>();
 
+    public Table() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter name of table:");
+        this.name = sc.nextLine();
+        System.out.println("Enter columns divided with space:");
+        String[] colNames = sc.nextLine().split(" ");
+        for (String colName : colNames) {
+            this.colNames.add(colName);
+        }
+        this.saveTable();
+        System.out.println("Table " + this.name + " has been created.");
+    }
     public Table(String name, ArrayList<String> colNames) {
         this.name = name;
         //colNames = new ArrayList<String>(Arrays.asList(cols));
@@ -14,7 +27,28 @@ public class Table {
     }
 
     public Table(String path) {
-        // creating table from file
+        try {
+            this.name = path.replace(".txt", "");
+            path = "database/" + path;
+            File file = new File(path);
+            Scanner sc = new Scanner(file);
+            String columnsStr = sc.nextLine();
+            String[] columns = columnsStr.split(";");
+            for (String colName : columns) {
+                colNames.add(colName);
+            }
+            while (sc.hasNextLine()) {
+                String rowStr = sc.nextLine();
+                String[] row = rowStr.split(";");
+                HashMap<String, String> rowMap = new HashMap<>();
+                for (int i = 0; i < colNames.size(); i++) {
+                    rowMap.put(colNames.get(i), row[i]);
+                }
+                rows.add(rowMap);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveTable() {
@@ -27,13 +61,13 @@ public class Table {
             PrintWriter pw = new PrintWriter(file);
             for (String s : colNames) {
                 pw.print(s);
-                pw.print("|");
+                pw.print(";");
             }
             pw.println();
             for (HashMap<String, String> m : rows) {
                 for (String s : colNames) {
                     pw.print(m.get(s));
-                    pw.print("|");
+                    pw.print(";");
                 }
                 pw.println();
             }
@@ -43,11 +77,11 @@ public class Table {
         }
     }
 
-    public void insert(String[] values) {
+    public void insert(ArrayList<String> values) {
         HashMap<String, String> row = new HashMap<String, String>();
 
         for (int i = 0; i < colNames.size(); i++) {
-            row.put(colNames.get(i), values[i]);
+            row.put(colNames.get(i), values.get(i));
         }
         rows.add(row);
     }
