@@ -9,20 +9,20 @@ public class Parser {
 
         }
         else if (command[0].equalsIgnoreCase("insert")) {
-            insert(command, database);
+            insertParse(command, database);
         }
         else if (command[0].equalsIgnoreCase("update")) {
 
         }
         else if (command[0].equalsIgnoreCase("delete")) {
-
+            deleteParse(command, database);
         }
         else {
             System.out.println("Unknown command.");
         }
     }
 
-    public void insert(String[] command, Database database) {
+    private void insertParse(String[] command, Database database) {
         if (command[1].equalsIgnoreCase("into") && command[3].equalsIgnoreCase("values")) {
             String tableName = command[2] + ".txt";
             if (database.containsTable(tableName)) {
@@ -38,14 +38,33 @@ public class Parser {
                 if (values.size() == table.colNames.size()) {
                     table.insert(values);
                     table.saveTable();
-                    System.out.println("Inserted values into:" + table.name);
                 }
                 else {
                     System.out.println("Not enough arguments.");
                 }
             }
             else {
-                System.out.println("Table " + tableName + " not found.");
+                System.out.println("Table " + command[2] + " not found.");
+            }
+        }
+        else {
+            System.out.println("Unknown command");
+        }
+    }
+
+    private void deleteParse(String[] command, Database database) {
+        if (command[1].equalsIgnoreCase("from")) {
+            String tableName = command[2] + ".txt";
+            if (database.containsTable(tableName) && command.length == 3) {
+                Table table = database.getTable(tableName);
+                table.deleteAll();
+                table.saveTable();
+            }
+            else if (database.containsTable(tableName) && command.length > 3) {
+                System.out.println("using where command"); // to do maybe
+            }
+            else {
+                System.out.println("Table " + command[2] + " not found.");
             }
         }
         else {

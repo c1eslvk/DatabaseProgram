@@ -100,4 +100,9 @@ public class Table {
             System.out.println();
         }
     }
+
+    public void deleteAll() {
+        rows.clear();
+    }
+
 }

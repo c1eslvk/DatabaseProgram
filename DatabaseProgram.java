@@ -16,7 +16,7 @@ public class DatabaseProgram {
                 database.addTable(new Table());
             }
             else {
-                System.out.println("Ending program.");
+                System.out.println("Shutting down...");
                 exit(0);
             }
         }
@@ -26,7 +26,7 @@ public class DatabaseProgram {
             String answer = sc.nextLine();
             if (answer.equalsIgnoreCase("2")) {
                 database.addTable(new Table());
-            } else {
+            } else if (answer.equalsIgnoreCase("1")){
                 System.out.println("Type command:");
                 String command = sc.nextLine();
                 if (command.equalsIgnoreCase("quit")) {
@@ -36,6 +36,11 @@ public class DatabaseProgram {
                 else {
                     parser.executeCommand(command, database);
                 }
+            } else if (answer.equalsIgnoreCase("quit")) {
+                System.out.println("Shutting down...");
+                exit(0);
+            } else {
+                System.out.println("Unknown command.");
             }
         }
 
