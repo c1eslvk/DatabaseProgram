@@ -149,4 +149,24 @@ public class Parser {
             }
         }
     }
+
+    public void createParse(String commandStr, Database database) {
+        String[] command = commandStr.split(" ");
+        if (command[1].equalsIgnoreCase("table")) {
+            String tableName = command[2];
+            ArrayList<String> colNames = new ArrayList<>();
+            for (int i = 3; i < command.length; i++) {
+                String col = command[i];
+                col = col.replace("(", "");
+                col = col.replace(")", "");
+                col = col.replace(",", "");
+                colNames.add(col);
+            }
+            Table table = new Table(tableName, colNames);
+            database.addTable(table);
+        }
+        else {
+            System.out.println("Unknown command.");
+        }
+    }
 }

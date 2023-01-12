@@ -19,26 +19,40 @@ public class DatabaseProgram {
             }
         }
         database.listTables();
+//        while (true) {
+//            System.out.println("1 - type command\n2 - create new table");
+//            String answer = sc.nextLine();
+//            if (answer.equalsIgnoreCase("2")) {
+//                database.addTable(new Table());
+//            } else if (answer.equalsIgnoreCase("1")){
+//                System.out.println("Type command:");
+//                String command = sc.nextLine();
+//                if (command.equalsIgnoreCase("quit")) {
+//                    System.out.println("Shutting down...");
+//                    exit(0);
+//                }
+//                else {
+//                    parser.executeCommand(command, database);
+//                }
+//            } else if (answer.equalsIgnoreCase("quit") || answer.equalsIgnoreCase("q")) {
+//                System.out.println("Shutting down...");
+//                exit(0);
+//            } else {
+//                System.out.println("Unknown command.");
+//            }
+//        }
         while (true) {
-            System.out.println("1 - type command\n2 - create new table");
-            String answer = sc.nextLine();
-            if (answer.equalsIgnoreCase("2")) {
-                database.addTable(new Table());
-            } else if (answer.equalsIgnoreCase("1")){
-                System.out.println("Type command:");
-                String command = sc.nextLine();
-                if (command.equalsIgnoreCase("quit")) {
-                    System.out.println("Shutting down...");
-                    exit(0);
-                }
-                else {
-                    parser.executeCommand(command, database);
-                }
-            } else if (answer.equalsIgnoreCase("quit")) {
+            System.out.println("Type command:");
+            String command = sc.nextLine();
+            if (command.split(" ")[0].equalsIgnoreCase("create")) {
+                parser.createParse(command, database);
+            }
+            else if (command.equalsIgnoreCase("quit") || command.equalsIgnoreCase("q")) {
                 System.out.println("Shutting down...");
                 exit(0);
-            } else {
-                System.out.println("Unknown command.");
+            }
+            else {
+                parser.executeCommand(command, database);
             }
         }
 
