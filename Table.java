@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Table {
@@ -59,14 +60,14 @@ public class Table {
                 file.createNewFile();
             }
             PrintWriter pw = new PrintWriter(file);
-            for (String s : colNames) {
-                pw.print(s);
+            for (String col : colNames) {
+                pw.print(col);
                 pw.print(";");
             }
             pw.println();
             for (HashMap<String, String> m : rows) {
-                for (String s : colNames) {
-                    pw.print(m.get(s));
+                for (String col : colNames) {
+                    pw.print(m.get(col));
                     pw.print(";");
                 }
                 pw.println();
@@ -86,23 +87,57 @@ public class Table {
         rows.add(row);
     }
 
-    public void print() {
+    public void deleteAll() {
+        rows.clear();
+    }
+
+    public void updateWholeCol(String col, String val) {
+        for (HashMap<String, String> row : rows) {
+            row.replace(col, val);
+        }
+    }
+
+    public void selectSpecific(ArrayList<String> cols) {
+        if (checkCols(cols)) {
+            System.out.print("| ");
+            for (String col : cols) {
+                System.out.print(col + " | ");
+            }
+            System.out.println();
+            for (HashMap<String, String> row : rows) {
+                System.out.print("| ");
+                for (String col : cols) {
+                    System.out.print(row.get(col) + " | ");
+                }
+                System.out.println();
+            }
+        }
+        else {
+            System.out.println("Column not found.");
+        }
+    }
+
+    public void selectAll() {
         System.out.print("| ");
         for (String col : colNames) {
             System.out.print(col + " | ");
         }
         System.out.println();
-        for (HashMap<String, String> m : rows) {
+        for (HashMap<String, String> row : rows) {
             System.out.print("| ");
             for (String col : colNames) {
-                System.out.print(m.get(col) + " | ");
+                System.out.print(row.get(col) + " | ");
             }
             System.out.println();
         }
     }
 
-    public void deleteAll() {
-        rows.clear();
+    private boolean checkCols(ArrayList<String> cols) {
+        for (String col : cols) {
+            if (!colNames.contains(col)) {
+                return false;
+            }
+        }
+        return true;
     }
-
 }

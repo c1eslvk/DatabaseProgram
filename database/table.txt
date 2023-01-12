@@ -1,1 +1,4 @@
 name;surname;age;
+maks;cieslak;20;
+john;doe;34;
+Bartus;Wrobel;20;
