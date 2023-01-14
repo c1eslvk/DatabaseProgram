@@ -88,16 +88,15 @@ public class Table {
 
     public void selectSpecific(List<String> cols) {
         if (checkCols(cols)) {
-            System.out.print("| ");
+            System.out.print("|");
             for (String col : cols) {
-                System.out.print(col + " | ");
+                System.out.printf("%-10s|", col);
             }
             System.out.println();
             for (Map<String, String> row : rows) {
-//                String.format("|%20s|", "abc")
-                System.out.print("| ");
+                System.out.print("|");
                 for (String col : cols) {
-                    System.out.print(row.get(col) + " | ");
+                    System.out.printf("%-10s|", row.get(col));
                 }
                 System.out.println();
             }
@@ -108,15 +107,15 @@ public class Table {
     }
 
     public void selectAll() {
-        System.out.print("| ");
+        System.out.print("|");
         for (String col : colNames) {
-            System.out.print(col + " | ");
+            System.out.printf("%-10s|", col);
         }
         System.out.println();
         for (Map<String, String> row : rows) {
-            System.out.print("| ");
+            System.out.print("|");
             for (String col : colNames) {
-                System.out.print(row.get(col) + " | ");
+                System.out.printf("%-10s|", row.get(col));
             }
             System.out.println();
         }

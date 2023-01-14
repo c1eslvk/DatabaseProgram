@@ -1,1 +1,3 @@
 name;surname;age;
+maks;cieslak;20;
+bartek;wrobel;20;
