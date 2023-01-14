@@ -33,14 +33,19 @@ public class Database {
     }
 
     public void listTables() {
-        System.out.println("Tables in database:");
-        System.out.println("-------------------");
-        int counter = 1;
-        for (String table : tableNames) {
-            System.out.println(counter + ". " + table);
-            counter++;
+        if (!isEmpty()) {
+            System.out.println("Tables in database:");
+            System.out.println("-------------------");
+            int counter = 1;
+            for (String table : tableNames) {
+                System.out.println(counter + ". " + table);
+                counter++;
+            }
+            System.out.println("-------------------");
         }
-        System.out.println("-------------------");
+        else {
+            System.out.println("Database is empty.");
+        }
     }
 
     public boolean containsTable(String name) {

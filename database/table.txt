@@ -1,4 +1,0 @@
-name;surname;age;
-maks;cieslak;20;
-a;b;30;
-Ekin;Erdem;23;
