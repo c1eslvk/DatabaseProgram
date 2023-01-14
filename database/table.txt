@@ -1,3 +1,1 @@
 name;surname;age;
-maks;cieslak;48;
-maks;cieslak;47;

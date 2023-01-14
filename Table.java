@@ -80,12 +80,21 @@ public class Table {
         rows.clear();
     }
     public void deleteSpecific(String col, String value) {
-        rows.removeIf(row -> row.get(col).equalsIgnoreCase(value));
+        rows.removeIf(row -> row.get(col).equals(value));
     }
 
     public void updateWholeCol(String col, String val) {
         for (Map<String, String> row : rows) {
             row.replace(col, val);
+        }
+    }
+    public void updateSpecific(String col, String val, List<String> cols, List<String> values) {
+        for (Map<String, String> row : rows) {
+            if (row.get(col).equals(val)) {
+                for (int i = 0; i < cols.size(); i++) {
+                    row.replace(cols.get(i), values.get(i));
+                }
+            }
         }
     }
 

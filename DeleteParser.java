@@ -33,6 +33,3 @@ public class DeleteParser {
         }
     }
 }
-
-// delete from table where col = sth
-//    0    1    2     3     4  5  6
