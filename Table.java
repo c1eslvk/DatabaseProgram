@@ -6,23 +6,6 @@ public class Table {
     List<String> colNames = new ArrayList<>();
     List<Map<String, String>> rows = new ArrayList<>();
 
-    public Table() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter name of table:");
-        this.name = sc.nextLine();
-        System.out.println("Enter columns divided with space:");
-        String[] colNames = sc.nextLine().split(" ");
-        for (String colName : colNames) {
-            this.colNames.add(colName);
-        }
-        this.saveTable();
-        System.out.println("Table " + this.name + " has been created.");
-    }
-    public Table(String name, List<String> colNames) {
-        this.name = name;
-        this.colNames = colNames;
-    }
-
     public Table(String path) {
         try {
             this.name = path.replace(".txt", "");
