@@ -16,9 +16,12 @@ public class DatabaseProgram {
                 exit(0);
             }
             else {
-                parser.executeCommand(command, database);
+                try {
+                    parser.executeCommand(command, database);
+                } catch (InvalidSyntaxException | TableNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
-
     }
 }

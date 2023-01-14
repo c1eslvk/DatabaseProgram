@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class UpdateParser {
-    public void updateParse(String[] command, Database database) {
+    public void updateParse(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException{
         if (command[2].equalsIgnoreCase("set")) {
             String tableName = command[1];
             int colCounter = 0, valCounter = 0;
@@ -25,8 +25,11 @@ public class UpdateParser {
                 }
                 table.saveTable();
             }
+            else {
+                throw new TableNotFoundException("Table not found");
+            }
         } else {
-            System.out.println("Unknown command.");
+            throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
 }

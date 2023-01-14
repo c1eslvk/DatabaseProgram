@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateParser {
-    public void createParse(String[] command, Database database) {
+    public void createParse(String[] command, Database database) throws InvalidSyntaxException{
         if (command[1].equalsIgnoreCase("table") && command.length > 3) {
             String tableName = command[2];
             List<String> colNames = new ArrayList<>();
@@ -16,7 +16,7 @@ public class CreateParser {
             Table table = new Table(tableName, colNames);
             database.addTable(table);
         } else {
-            System.out.println("Unknown command.");
+            throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
 }

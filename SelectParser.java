@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class SelectParser {
-    public void selectParse(String[] command, Database database) {
+    public void selectParse(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException {
         if (command[1].equalsIgnoreCase("*")) {
             selectAllParser(command, database);
         } else {
@@ -9,21 +9,21 @@ public class SelectParser {
         }
     }
 
-    private void selectAllParser(String[] command, Database database) {
+    private void selectAllParser(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException {
         if (command[2].equalsIgnoreCase("from")) {
             String tableName = command[3];
             if (database.containsTable(tableName)) {
                 Table table = database.getTable(tableName);
                 table.selectAll();
             } else {
-                System.out.println("Table " + command[3] + " not found.");
+                throw new TableNotFoundException("Table not found");
             }
         } else {
-            System.out.println("Unknown command.");
+            throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
 
-    private void selectSpecificParser(String[] command, Database database) {
+    private void selectSpecificParser(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException{
         if (command[command.length - 2].equalsIgnoreCase("from")) {
             String tableName = command[command.length - 1];
             if (database.containsTable(tableName)) {
@@ -35,11 +35,11 @@ public class SelectParser {
                     }
                     table.selectSpecific(cols);
                 } else {
-                    System.out.println("Unknown command.");
+                    throw new InvalidSyntaxException("Invalid Syntax");
                 }
 
             } else {
-                System.out.println("Table " + command[command.length - 1] + " not found.");
+                throw new TableNotFoundException("Table not found.");
             }
         }
     }

@@ -1,5 +1,5 @@
 public class DeleteParser {
-    public void deleteParse(String[] command, Database database) {
+    public void deleteParse(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException{
         if (command[1].equalsIgnoreCase("from")) {
             String tableName = command[2];
             if (database.containsTable(tableName) && command.length == 3) {
@@ -9,10 +9,10 @@ public class DeleteParser {
             } else if (database.containsTable(tableName) && command.length > 3) {
                 System.out.println("using where command"); // to do maybe
             } else {
-                System.out.println("Table " + command[2] + " not found.");
+                throw new TableNotFoundException("Table not found");
             }
         } else {
-            System.out.println("Unknown command");
+            throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
 }
