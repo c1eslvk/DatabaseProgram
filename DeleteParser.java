@@ -2,12 +2,16 @@ public class DeleteParser {
     public void deleteParse(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException{
         if (command[1].equalsIgnoreCase("from")) {
             String tableName = command[2];
-            if (database.containsTable(tableName) && command.length == 3) {
+            if (database.containsTable(tableName)) {
                 Table table = database.getTable(tableName);
-                table.deleteAll();
+                if (command.length == 3) {
+                    table.deleteAll();
+                } else if (command.length == 7) {
+                    deleteSpecificParse(command, table);
+                } else {
+                    throw new InvalidSyntaxException("Invalid Syntax");
+                }
                 table.saveTable();
-            } else if (database.containsTable(tableName) && command.length > 3) {
-                System.out.println("using where command"); // to do maybe
             } else {
                 throw new TableNotFoundException("Table not found");
             }
@@ -15,4 +19,20 @@ public class DeleteParser {
             throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
+
+    private void deleteSpecificParse(String[] command, Table table) {
+        if (command[3].equalsIgnoreCase("where") && command[5].equals("=")) {
+            String col = command[4];
+            String value = command[6];
+            if (table.colNames.contains(col)) {
+                table.deleteSpecific(col, value);
+            }
+            else {
+                System.out.println("Column not found");
+            }
+        }
+    }
 }
+
+// delete from table where col = sth
+//    0    1    2     3     4  5  6

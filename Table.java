@@ -79,6 +79,9 @@ public class Table {
     public void deleteAll() {
         rows.clear();
     }
+    public void deleteSpecific(String col, String value) {
+        rows.removeIf(row -> row.get(col).equalsIgnoreCase(value));
+    }
 
     public void updateWholeCol(String col, String val) {
         for (Map<String, String> row : rows) {
