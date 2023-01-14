@@ -5,7 +5,10 @@ public class Table {
     public String name;
     List<String> colNames = new ArrayList<>();
     List<Map<String, String>> rows = new ArrayList<>();
-
+    public Table(String name, List<String> colNames) {
+        this.name = name;
+        this.colNames = colNames;
+    }
     public Table(String path) {
         try {
             this.name = path.replace(".txt", "");

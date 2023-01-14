@@ -13,7 +13,7 @@ public class CreateParser {
                 col = col.replace(",", "");
                 colNames.add(col);
             }
-            Table table = new Table(tableName);
+            Table table = new Table(tableName, colNames);
             database.addTable(table);
         } else {
             System.out.println("Unknown command.");
