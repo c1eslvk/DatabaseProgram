@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
+
 public class CreateParser {
     public void createParse(String[] command, Database database) {
         if (command[1].equalsIgnoreCase("table") && command.length > 3) {
             String tableName = command[2];
-            ArrayList<String> colNames = new ArrayList<>();
+            List<String> colNames = new ArrayList<>();
             for (int i = 3; i < command.length; i++) {
                 String col = command[i];
                 col = col.replace("(", "");
@@ -11,7 +13,7 @@ public class CreateParser {
                 col = col.replace(",", "");
                 colNames.add(col);
             }
-            Table table = new Table(tableName, colNames);
+            Table table = new Table(tableName);
             database.addTable(table);
         } else {
             System.out.println("Unknown command.");
