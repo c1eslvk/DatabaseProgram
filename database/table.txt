@@ -1,4 +1,4 @@
 name;surname;age;
 maks;cieslak;20;
-john;doe;34;
-Bartus;Wrobel;20;
+a;b;30;
+Ekin;Erdem;23;

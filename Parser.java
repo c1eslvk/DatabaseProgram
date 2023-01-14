@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Parser {
 
@@ -7,26 +8,22 @@ public class Parser {
         String[] command = commandStr.split(" ");
         if (command[0].equalsIgnoreCase("select")) {
             selectParser(command, database);
-        }
-        else if (command[0].equalsIgnoreCase("insert")) {
+        } else if (command[0].equalsIgnoreCase("insert")) {
             insertParse(command, database);
-        }
-        else if (command[0].equalsIgnoreCase("update")) {
+        } else if (command[0].equalsIgnoreCase("update")) {
             updateParser(command, database);
-        }
-        else if (command[0].equalsIgnoreCase("delete")) {
+        } else if (command[0].equalsIgnoreCase("delete")) {
             deleteParse(command, database);
-        }
-        else {
+        } else {
             System.out.println("Unknown command.");
         }
     }
 
     private void insertParse(String[] command, Database database) {
         if (command[1].equalsIgnoreCase("into") && command[3].equalsIgnoreCase("values")) {
-            String tableName = command[2] + ".txt";
+            String tableName = command[2];
             if (database.containsTable(tableName)) {
-                ArrayList<String> values = new ArrayList<>();
+                List<String> values = new ArrayList<>();
                 for (int i = 4; i < command.length; i++) {
                     String value = command[i];
                     value = value.replace("(", "");
@@ -38,43 +35,37 @@ public class Parser {
                 if (values.size() == table.colNames.size()) {
                     table.insert(values);
                     table.saveTable();
-                }
-                else {
+                } else {
                     System.out.println("Not enough arguments.");
                 }
-            }
-            else {
+            } else {
                 System.out.println("Table " + command[2] + " not found.");
             }
-        }
-        else {
+        } else {
             System.out.println("Unknown command");
         }
     }
 
     private void deleteParse(String[] command, Database database) {
         if (command[1].equalsIgnoreCase("from")) {
-            String tableName = command[2] + ".txt";
+            String tableName = command[2];
             if (database.containsTable(tableName) && command.length == 3) {
                 Table table = database.getTable(tableName);
                 table.deleteAll();
                 table.saveTable();
-            }
-            else if (database.containsTable(tableName) && command.length > 3) {
+            } else if (database.containsTable(tableName) && command.length > 3) {
                 System.out.println("using where command"); // to do maybe
-            }
-            else {
+            } else {
                 System.out.println("Table " + command[2] + " not found.");
             }
-        }
-        else {
+        } else {
             System.out.println("Unknown command");
         }
     }
 
     private void updateParser(String[] command, Database database) {
         if (command[2].equalsIgnoreCase("set")) {
-            String tableName = command[1] + ".txt";
+            String tableName = command[1];
             int colCounter = 0, valCounter = 0;
             ArrayList<String> cols = new ArrayList<>();
             ArrayList<String> values = new ArrayList<>();
@@ -83,8 +74,7 @@ public class Parser {
                     if (colCounter == valCounter) {
                         cols.add(command[i]);
                         colCounter++;
-                    }
-                    else {
+                    } else {
                         values.add(command[i]);
                         valCounter++;
                     }
@@ -97,8 +87,7 @@ public class Parser {
                 }
                 table.saveTable();
             }
-        }
-        else {
+        } else {
             System.out.println("Unknown command.");
         }
     }
@@ -106,31 +95,28 @@ public class Parser {
     private void selectParser(String[] command, Database database) {
         if (command[1].equalsIgnoreCase("*")) {
             selectAllParser(command, database);
-        }
-        else {
+        } else {
             selectSpecificParser(command, database);
         }
     }
 
     private void selectAllParser(String[] command, Database database) {
         if (command[2].equalsIgnoreCase("from")) {
-            String tableName = command[3] + ".txt";
+            String tableName = command[3];
             if (database.containsTable(tableName)) {
                 Table table = database.getTable(tableName);
                 table.selectAll();
-            }
-            else {
+            } else {
                 System.out.println("Table " + command[3] + " not found.");
             }
-        }
-        else {
+        } else {
             System.out.println("Unknown command.");
         }
     }
 
     private void selectSpecificParser(String[] command, Database database) {
         if (command[command.length - 2].equalsIgnoreCase("from")) {
-            String tableName = command[command.length - 1] + ".txt";
+            String tableName = command[command.length - 1];
             if (database.containsTable(tableName)) {
                 Table table = database.getTable(tableName);
                 if (command.length - 3 <= table.colNames.size()) {
@@ -139,8 +125,7 @@ public class Parser {
                         cols.add(command[i].replace(",", ""));
                     }
                     table.selectSpecific(cols);
-                }
-                else {
+                } else {
                     System.out.println("Unknown command.");
                 }
 
@@ -164,8 +149,7 @@ public class Parser {
             }
             Table table = new Table(tableName, colNames);
             database.addTable(table);
-        }
-        else {
+        } else {
             System.out.println("Unknown command.");
         }
     }

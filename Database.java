@@ -1,13 +1,16 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Database {
-    private HashMap<String,Table> tables = new HashMap<>();
-    private ArrayList<String> tableNames = new ArrayList<>();
+    private Map<String,Table> tables = new HashMap<>();
+    private List<String> tableNames = new ArrayList<>();
 
     public void addTable(Table table) {
         table.saveTable();
+        tableNames.add(table.name);
         tables.put(table.name, table);
     }
 
@@ -17,8 +20,9 @@ public class Database {
         if (listOfFiles != null && listOfFiles.length != 0) {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                    tableNames.add(file.getName());
-                    tables.put(file.getName(), new Table(file.getName()));
+                    addTable(new Table(file.getName()));
+//                    tableNames.add(file.getName());
+//                    tables.put(file.getName(), new Table(file.getName()));
                 }
             }
         }
