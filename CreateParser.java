@@ -17,7 +17,7 @@ public class CreateParser {
                     }
                 } else {
                     if (command[i].endsWith(")")) {
-                        colNames.add(command[i].replace(")", ""));
+                        colNames.add(command[i].replace(")", "").replace("(", ""));
                         break;
                     } else {
                         throw new InvalidSyntaxException("Invalid Syntax");

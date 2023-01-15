@@ -18,7 +18,7 @@ public class InsertParser {
                         }
                     } else {
                         if (command[i].endsWith(")")) {
-                            values.add(command[i].replace(")", ""));
+                            values.add(command[i].replace(")", "").replace("(", ""));
                             break;
                         } else {
                             throw new InvalidSyntaxException("Invalid Syntax");
