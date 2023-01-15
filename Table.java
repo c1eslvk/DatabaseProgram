@@ -98,7 +98,7 @@ public class Table {
         }
     }
 
-    public void selectSpecific(List<String> cols) {
+    public void selectSpecificCols(List<String> cols) throws InvalidSyntaxException {
         if (checkCols(cols)) {
             System.out.print("|");
             for (String col : cols) {
@@ -114,10 +114,31 @@ public class Table {
             }
         }
         else {
-            System.out.println("Column not found.");
+            throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
+    public void selectSpecificColsWhere(List<String> cols, String col, String value) throws InvalidSyntaxException {
+        if (checkCols(cols) && colNames.contains(col)) {
+            System.out.print("|");
+            for (String colName : cols) {
+                System.out.printf("%-10s|", colName);
+            }
+            System.out.println();
+            for (Map<String, String> row : rows) {
+                if (row.get(col).equals(value)) {
+                    System.out.print("|");
+                    for (String colName : cols) {
+                        System.out.printf("%-10s|", row.get(colName));
+                    }
+                    System.out.println();
+                }
 
+            }
+        }
+        else {
+            throw new InvalidSyntaxException("Invalid Syntax");
+        }
+    }
     public void selectAll() {
         System.out.print("|");
         for (String col : colNames) {
@@ -130,6 +151,22 @@ public class Table {
                 System.out.printf("%-10s|", row.get(col));
             }
             System.out.println();
+        }
+    }
+    public void selectAllWhere(String col, String value) {
+        System.out.print("|");
+        for (String colName : colNames) {
+            System.out.printf("%-10s|", colName);
+        }
+        System.out.println();
+        for (Map<String, String> row : rows) {
+            if (row.get(col).equals(value)) {
+                System.out.print("|");
+                for (String colName : colNames) {
+                    System.out.printf("%-10s|", row.get(colName));
+                }
+                System.out.println();
+            }
         }
     }
 

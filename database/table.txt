@@ -1,1 +1,5 @@
 name;surname;age;
+maks;cieslak;20;
+adam;mickiewicz;234;
+bartek;wrobel;20;
+arek;cieslak;48;
