@@ -169,7 +169,29 @@ public class Table {
             }
         }
     }
-
+    public void selectAllJoin(Table table, String condition) {
+        List<String> tempCols = this.colNames;
+        for (String col : table.colNames) {
+            if (!col.equals(condition)) {
+                tempCols.add(col);
+            }
+        }
+        Table temp = new Table("temp", tempCols);
+        List<Map<String, String>> tempRows = new ArrayList<>();
+        int i = 0;
+        for (Map<String, String> row1 : this.rows) {
+            for (Map<String, String> row2 : table.rows) {
+                if (row2.get(condition).equals(row1.get(condition))) {
+                    tempRows.add(row1);
+                    tempRows.get(i).putAll(row2);
+                    i++;
+                    break;
+                }
+            }
+        }
+        temp.rows = tempRows;
+        temp.selectAll();
+    }
     private boolean checkCols(List<String> cols) {
         for (String col : cols) {
             if (!colNames.contains(col)) {

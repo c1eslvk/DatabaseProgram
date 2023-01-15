@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectParser {
-    public void selectParse(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException {
+    public void selectParse(String[] command, Database database)
+            throws InvalidSyntaxException, TableNotFoundException {
         if (command[1].equalsIgnoreCase("*")) {
             selectAllParser(command, database);
         } else {
@@ -10,7 +11,8 @@ public class SelectParser {
         }
     }
 
-    private void selectAllParser(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException {
+    private void selectAllParser(String[] command, Database database)
+            throws InvalidSyntaxException, TableNotFoundException {
         if (command[2].equalsIgnoreCase("from")) {
             String tableName = command[3];
             if (database.containsTable(tableName)) {
@@ -19,6 +21,8 @@ public class SelectParser {
                     table.selectAll();
                 } else if (command.length == 8) {
                     selectAllWhereParse(command, table);
+                } else if (command.length == 10) {
+                    selectJoinParse(command, table, database);
                 } else {
                     throw new InvalidSyntaxException("Invalid Syntax");
                 }
@@ -41,7 +45,8 @@ public class SelectParser {
             }
         }
     }
-    private void selectSpecificParser(String[] command, Database database) throws InvalidSyntaxException, TableNotFoundException{
+    private void selectSpecificParser(String[] command, Database database)
+            throws InvalidSyntaxException, TableNotFoundException{
         List<String> cols = new ArrayList<>();
         for (int i = 1; i < command.length; i++) {
             if (command[i].endsWith(",")) {
@@ -68,7 +73,8 @@ public class SelectParser {
             throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
-    private void selectSpecificWhereParse(String[] command, Table table, List<String> cols) throws InvalidSyntaxException {
+    private void selectSpecificWhereParse(String[] command, Table table, List<String> cols)
+            throws InvalidSyntaxException {
         if (command[command.length - 4].equalsIgnoreCase("where") && command[command.length - 2].equals("=")) {
             String col = command[command.length - 3];
             String value = command[command.length - 1];
@@ -77,4 +83,28 @@ public class SelectParser {
             throw new InvalidSyntaxException("Invalid Syntax");
         }
     }
+    private void selectJoinParse(String[] command, Table table, Database database)
+            throws InvalidSyntaxException, TableNotFoundException {
+        if (command[4].equalsIgnoreCase("join") && command[6].equalsIgnoreCase("on") && command[8].equals("=")) {
+            String table2Name = command[5];
+            String[] condition1 = command[7].split("\\.");
+            String[] condition2 = command[9].split("\\.");
+            if (database.containsTable(table2Name)) {
+                if (condition1.length == 2 && condition2.length == 2 && condition1[0].equals(table.name) &&
+                        condition2[0].equals(table2Name) && condition1[1].equals(condition2[1])) {
+                    Table table2 = database.getTable(table2Name);
+                    table.selectAllJoin(table2, condition1[1]);
+                } else {
+                    throw new InvalidSyntaxException("Invalid Syntax");
+                }
+            } else {
+                throw new TableNotFoundException("Table not found");
+            }
+        } else {
+            throw new InvalidSyntaxException("Invalid Syntax");
+        }
+    }
 }
+// select * from table join tab2 on table.sth = tab2.sth
+//   0    1   2   3     4    5    6   7       8   9
+// select * from emp join dept on emp.deptno = dept.deptno

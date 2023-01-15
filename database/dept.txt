@@ -1,0 +1,4 @@
+deptno;dname;
+1;sales;
+2;manager;
+3;finances;
