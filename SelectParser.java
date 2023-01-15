@@ -93,7 +93,12 @@ public class SelectParser {
                 if (condition1.length == 2 && condition2.length == 2 && condition1[0].equals(table.name) &&
                         condition2[0].equals(table2Name) && condition1[1].equals(condition2[1])) {
                     Table table2 = database.getTable(table2Name);
-                    table.selectAllJoin(table2, condition1[1]);
+                    if (table.colNames.contains(condition1[1]) && table2.colNames.contains(condition2[0])) {
+                        table.selectAllJoin(table2, condition1[1]);
+                    } else {
+                        throw new InvalidSyntaxException("Invalid Syntax");
+                    }
+
                 } else {
                     throw new InvalidSyntaxException("Invalid Syntax");
                 }
@@ -105,6 +110,3 @@ public class SelectParser {
         }
     }
 }
-// select * from table join tab2 on table.sth = tab2.sth
-//   0    1   2   3     4    5    6   7       8   9
-// select * from emp join dept on emp.deptno = dept.deptno
