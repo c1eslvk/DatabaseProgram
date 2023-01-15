@@ -14,6 +14,8 @@ public class DatabaseProgram {
             if (command.equalsIgnoreCase("quit") || command.equalsIgnoreCase("q")) {
                 System.out.println("Shutting down...");
                 exit(0);
+            } else if (command.equalsIgnoreCase("list") || command.equalsIgnoreCase("l")) {
+                database.listTables();
             }
             else {
                 try {

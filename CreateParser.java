@@ -7,11 +7,22 @@ public class CreateParser {
             String tableName = command[2];
             List<String> colNames = new ArrayList<>();
             for (int i = 3; i < command.length; i++) {
-                String col = command[i];
-                col = col.replace("(", "");
-                col = col.replace(")", "");
-                col = col.replace(",", "");
-                colNames.add(col);
+                if (command[i].endsWith(",")) {
+                    if (i == 3 && command[i].startsWith("(")) {
+                        colNames.add(command[i].replace(",", "").replace("(", ""));
+                    } else if (i != 3) {
+                        colNames.add(command[i].replace(",", ""));
+                    } else {
+                        throw new InvalidSyntaxException("Invalid Syntax");
+                    }
+                } else {
+                    if (command[i].endsWith(")")) {
+                        colNames.add(command[i].replace(")", ""));
+                        break;
+                    } else {
+                        throw new InvalidSyntaxException("Invalid Syntax");
+                    }
+                }
             }
             Table table = new Table(tableName, colNames);
             database.addTable(table);
